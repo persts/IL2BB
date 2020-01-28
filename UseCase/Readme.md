@@ -42,8 +42,8 @@ Example:
 part0/sub000/2010_Unit150_Ivan097_img0001.jpg,red deer
 part0/sub000/2010_Unit150_Ivan097_img0002.jpg,red deer
 part0/sub000/2010_Unit150_Ivan097_img0003.jpg,red deer
-part0/sub000/2010_Unit150_Ivan097_img0004.jpg,red deer
-part0/sub000/2010_Unit150_Ivan097_img0005.jpg,red deer
+part0/sub000/2010_Unit150_Ivan099_img0121.jpg,red deer
+part0/sub000/2010_Unit150_Ivan099_img0122.jpg,red deer
 ```
 
 *Note: The IL2BB pipeline expects all of the targets in the image to be of the same species. When creating your label map, skip any images that have more than one species in them. Images can have multiple targets of the same species.  
