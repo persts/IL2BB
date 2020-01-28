@@ -14,7 +14,7 @@ These image file name and label pairs are precisely what are needed as input to 
 Reviewing and documenting objects captured in images is time consuming enough. Collecting and labeling bounding boxes requires even more time.
 
 ## Relevance
-Deep learning based object detectors have the potential to assist and automated the analysis of images collected during camera trap deployments. Considerable bounding box data are need to train an object detector. Most organizations, however, don’t have the human capital to manually generate the needed training data let alone reprocess historical or previously labeled images. An automated pipeline to convert existing image level labels into labeled bounding boxes would give organizations a tremendous boost toward training custom networks to assist with the analysis of newly collected data.
+Deep learning based object detectors have the potential to assist and automate the analysis of images collected during camera trap deployments. Considerable bounding box data are need to train an object detector. Most organizations, however, don’t have the human capital to manually generate the needed training data let alone reprocess historical or previously labeled images. An automated pipeline to convert existing image level labels into labeled bounding boxes would give organizations a tremendous boost toward training custom networks to assist with the analysis of newly collected data.
 
 ## Getting Started
 Set up a virtual environment

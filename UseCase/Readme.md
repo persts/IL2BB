@@ -1,13 +1,13 @@
 # USE CASE: Colorado Parks and Wildlife
 
 ## Description
-Colorado Parks and Wildlife (CPW) participated in an early effort to develop a machine learning approach that could be applied across study sites and provide a workflow that would allow ecologists to automatically identify wildlife in their own camera tap images ( [Machine learning to classify animal species in camera trap images: Applications in ecology](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13120) ). Colorado Parks and Wildlife contributed 329,688 images with image level labels to the development of the neural network based image classifier and these data are now part of the publicly available [North American Camera Trap Image](http://lila.science/datasets/nacti) archive. 
+Colorado Parks and Wildlife (CPW) participated in an early effort to develop a machine learning approach that could be applied across study sites and provide a workflow that would allow ecologists to automatically identify wildlife in their own camera tap images ( [Machine learning to classify animal species in camera trap images: Applications in ecology](https://besjournals.onlinelibrary.wiley.com/doi/full/10.1111/2041-210X.13120) ). CPW contributed 329,688 images with image level labels to the development of the neural network based image classifier and these data are now part of the publicly available [North American Camera Trap Image](http://lila.science/datasets/nacti) archive. 
 
-Colorado Parks and Wildlife would now like to develop a more advanced deep learning based object detector to help process images collected during future camera trap deployments. While Colorado Parks and Wildlife has an extensive camera trap archive, CPW does not have the resources to re export the data and manually collect and label the needed bounding boxes.
+CPW would now like to develop a more advanced deep learning based object detector to help process images collected during future camera trap deployments. While CPW has an extensive camera trap archive, CPW does not have the resources to re export the data and manually collect and label the needed bounding boxes.
 
-Colorado Parks and Wildlife will use the [IL2BB](https://github.com/persts/IL2BB) pipeline to leverage their previous labeling and data collation efforts (available the in NACTI archive) and automatically create labeled bounding boxes to train a new deep learning based object detector.
+CPW will use the [IL2BB](https://github.com/persts/IL2BB) pipeline to leverage their previous labeling and data collation efforts (available the in NACTI archive) and automatically create labeled bounding boxes to train a new deep learning based object detector.
 
-## Step 1: Download the NACTI Data & Metadata
+## Step 1: Downloading the NACTI Data & Metadata
 All of the CPW images are stored in the first archive chunk.
 
 The needed files include:
@@ -29,7 +29,7 @@ The North American Camera Trap Image (NACTI) archive contains 3,367,383 images i
 python3 extract_metadata.py
 ```
 
-## Step 3: Create Batches
+## Step 3: Creating Image Batches
 This is the step most organizations will start with if they are exporting data from their own internal database(s) or archives.
 
 ### Label Map
