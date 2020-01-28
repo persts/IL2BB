@@ -30,7 +30,7 @@ python3 extract_metadata.py
 ```
 
 ## Step 3: Create Batches
-This is the step most organizations will start with if they are exporting data from their own internal database or archives.
+This is the step most organizations will start with if they are exporting data from their own internal database(s) or archives.
 
 ### Label Map
 The main input to the batching stage is a simple csv file (no header row) with two fields:
@@ -73,4 +73,4 @@ python3 ../stage2_gen_bbox.py batches/batch_001/
 ```
 This step will create a new annotation file (il2bb.bbx) in the batch directory which can be opened, reviewed, and modified with the [Bounding Box Editor and Exporter (BBoxEE)](https://github.com/persts/BBoxEE). A log file is also generated in the batch directory which contains entries for images where no bounding box was able to be created.
 
-One all of the data have been reviewed, BBoxEE can be used to generate training data for several popular object detector training pipelines.
+Once all of the data have been reviewed, BBoxEE can be used to generate training data for several popular object detector training pipelines.
