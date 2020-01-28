@@ -31,7 +31,7 @@ pip install tensorflow==1.15
 
 Clone the IL2BB repo
 ```bash
-git clone https://github.com/persts/IL2bb IL2BB
+git clone https://github.com/persts/IL2BB IL2BB
 ```
 
 Set up BBoxEE
