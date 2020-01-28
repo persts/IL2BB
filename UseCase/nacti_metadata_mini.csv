@@ -1,0 +1,6 @@
+seq_no,id,filename,study,location,width,height,category_id,name,genus,family,order,class,common_name
+0,2010_Unit150_Ivan097_img0001.jpg,part0/sub000/2010_Unit150_Ivan097_img0001.jpg,CPW,"San Juan Mntns, Colorado",2048,1536,10,"cervus elaphus",cervus,cervidae,artiodactyla,mammalia,"red deer"
+1,2010_Unit150_Ivan097_img0002.jpg,part0/sub000/2010_Unit150_Ivan097_img0002.jpg,CPW,"San Juan Mntns, Colorado",2048,1536,10,"cervus elaphus",cervus,cervidae,artiodactyla,mammalia,"red deer"
+2,2010_Unit150_Ivan097_img0003.jpg,part0/sub000/2010_Unit150_Ivan097_img0003.jpg,CPW,"San Juan Mntns, Colorado",2048,1536,10,"cervus elaphus",cervus,cervidae,artiodactyla,mammalia,"red deer"
+3,2010_Unit150_Ivan097_img0004.jpg,part0/sub000/2010_Unit150_Ivan097_img0004.jpg,CPW,"San Juan Mntns, Colorado",2048,1536,10,"cervus elaphus",cervus,cervidae,artiodactyla,mammalia,"red deer"
+4,2010_Unit150_Ivan097_img0005.jpg,part0/sub000/2010_Unit150_Ivan097_img0005.jpg,CPW,"San Juan Mntns, Colorado",2048,1536,10,"cervus elaphus",cervus,cervidae,artiodactyla,mammalia,"red deer"
