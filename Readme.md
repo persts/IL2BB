@@ -1,6 +1,8 @@
 # Image Level Label to Bounding Box Pipeline
 The Image Level Label to Bounding Box (IL2BB) pipeline automates the generation of labeled bounding boxes by leveraging an organization’s previous labeling efforts and [Microsoft AI for Earth’s MegaDetector](https://github.com/microsoft/CameraTraps/). The output of this pipeline are batches of images with annotation files that can be opened, reviewed, and modified with the [Bounding Box Editor and Exporter (BBoxEE)](https://github.com/persts/BBoxEE) to prepare training data for object detectors.
 
+The IL2BB pipeline is especially useful for organizations that are hesitant or not permitted to use or store data on online services.
+
 ## Problem Statment
 Most organizations undertaking camera trap initiatives don’t have the human capital to collect and label bounding boxes needed to train deep learning based object detectors let alone add bounding boxes to historical / previously labeled images.
 
