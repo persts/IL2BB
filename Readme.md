@@ -42,3 +42,6 @@ git clone https://github.com/persts/BBoxEE BBoxEE
 
 ## Quick Start
 The [Colorado Parks and Wildlife use case](./UseCase) doubles as basic user guide.
+
+## Additional Information
+The IL2BB pipeline is being developed for the Animal Detection Network (Andenet) which is part of the Center for Biodiversity and Conservation's broader [Machine Learning for Conservation](https://www.amnh.org/research/center-for-biodiversity-conservation/research-and-conservation/machine-learning-for-conservation) initiative.
