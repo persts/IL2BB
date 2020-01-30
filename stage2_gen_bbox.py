@@ -51,7 +51,10 @@ if not os.path.isfile(csvfile):
     print("[{}] does not contain a label file.".format(batch_path))
     sys.exit(0)
 logfile = os.path.join(batch_path, "log.txt")
-bbxfile = os.path.join(batch_path, "il2bb.bbx")
+batch_dir = os.path.split(batch_path)[1]
+if batch_dir == '':
+    batch_dir = os.path.split(os.path.split(batch_path)[0])[1]
+bbxfile = os.path.join(batch_path, "{}_il2bb.bbx".format(batch_dir))
 
 # Download frozen megadetector graph
 if not os.path.isfile(MEGADETECTOR):
