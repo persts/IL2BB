@@ -1,1 +1,4 @@
 __pycache__
+batches/
+cpw_labelmap.csv
+megadetector_v3.pb

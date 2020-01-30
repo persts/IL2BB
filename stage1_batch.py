@@ -59,9 +59,10 @@ for row in reader:
         nl = ''
     # copy the original image
     current_file = os.path.join(DATA, row[0])
-    new_file = os.path.join(current_batch, "img_{:03}.{}".format(counter, row[0][-3:].lower()))
+    file_name = "img_{:03}.{}".format(counter, row[0][-3:].lower())
+    new_file = os.path.join(current_batch, file_name)
     shutil.copyfile(current_file, new_file) 
-    mapfile.write("{}{},{},{}".format(nl, new_file, row[1], row[0]))
+    mapfile.write("{}{},{},{}".format(nl, file_name, row[1], row[0]))
     counter += 1
     nl = "\n"
     if counter == 1000:

@@ -99,7 +99,8 @@ with detection_graph.as_default():
 
         # Pass each image through megadetector
         for img, label in image_list:
-            image = Image.open(img)
+            file_name = os.path.join(batch_path, img)
+            image = Image.open(file_name)
             image_np = np.array(image)
             image_np_expanded = np.expand_dims(image_np, axis=0)
             image.close()
@@ -126,11 +127,10 @@ with detection_graph.as_default():
                     entry['annotations'].append(annotation)
             # If bounding boxes created apply label else log false negative
             if len(entry['annotations']) > 0:
-                name = os.path.split(img)[1]
-                detections['images'][name] = entry
-                print("({}) [{}] detections".format(img, len(entry['annotations'])))
+                detections['images'][img] = entry
+                print("({}) [{}] detections".format(file_name, len(entry['annotations'])))
             else:
-                print('False negative: [{}] - {}'.format(label, img))
+                print('False negative: [{}] - {}'.format(label, file_name))
                 logfile.write('{}False negative: [{}] - {}'.format(nl, label, img))
                 nl = "\n"
 
