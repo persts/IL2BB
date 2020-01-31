@@ -80,6 +80,7 @@ for row in reader:
     image_list.append((row[0], row[1]))
 csvfile.close()
 detections = schema.annotation_file()
+detections['analysts'].append('Machine Generated')
 
 # Create the detection graph and read in megadetector
 detection_graph = tf.Graph()
