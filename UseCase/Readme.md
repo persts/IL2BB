@@ -65,6 +65,13 @@ Run the batch process on the demo data.
 ```python
 python3 ../stage1_batch.py cpw_labelmap.csv data batches
 ```
+
+If you want to be able to prioritize the bounding box review by species you can use the alternative batch process.
+Run the batch process on the demo data.
+```python
+python3 ../stage1_batch_by_species.py cpw_labelmap.csv data batches
+```
+
 ## Step 4: Creating Bounding Boxes
 The last step is to use [Microsoft AI for Earth’s MegaDetector](https://github.com/microsoft/CameraTraps/) for creating an initial bounding box and then apply the appropriate label to the box based on the known image level label. 
 
