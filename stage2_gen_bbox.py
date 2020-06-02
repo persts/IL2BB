@@ -34,8 +34,8 @@ import schema
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorflow as tf
 
-MEGADETECTOR = './megadetector_v3.pb'
-MEGADETECTOR_URL = 'https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/megadetector_v3.pb'
+MEGADETECTOR = './md_v4.1.0.pb'
+MEGADETECTOR_URL = 'https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb'
 THRESHOLD = 0.8
 
 # Little error checking to get things started

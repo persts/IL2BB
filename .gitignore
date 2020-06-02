@@ -2,3 +2,4 @@ __pycache__
 batches/
 cpw_labelmap.csv
 megadetector_v3.pb
+md_v4.1.0.pb
