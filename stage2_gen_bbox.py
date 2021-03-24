@@ -32,7 +32,7 @@ from PIL import Image
 import schema
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
 
 MEGADETECTOR = './md_v4.1.0.pb'
 MEGADETECTOR_URL = 'https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb'
@@ -84,7 +84,7 @@ detections['analysts'].append('Machine Generated')
 
 # Create the detection graph and read in megadetector
 detection_graph = tf.Graph()
-graph_def = tf.compat.v1.GraphDef()
+graph_def = tf.GraphDef()
 with tf.io.gfile.GFile(MEGADETECTOR, 'rb') as fid:
     serialized_graph = fid.read()
     graph_def.ParseFromString(serialized_graph)
@@ -94,7 +94,7 @@ with detection_graph.as_default():
     tf.import_graph_def(graph_def, name='')
 
     # Begin processing loop
-    with tf.compat.v1.Session(graph=detection_graph) as sess:
+    with tf.Session(graph=detection_graph) as sess:
         image_tensor = (detection_graph.get_tensor_by_name('image_tensor:0'))
         d_boxes = (detection_graph.get_tensor_by_name('detection_boxes:0'))
         d_scores = (detection_graph.get_tensor_by_name('detection_scores:0'))

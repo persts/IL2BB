@@ -19,16 +19,24 @@ Reviewing and documenting objects captured in images is time consuming enough. C
 Deep learning based object detectors have the potential to assist and automate the analysis of images collected during camera trap deployments. Considerable bounding box data are needed to train an object detector. Most organizations, however, don’t have the human capital to manually generate the needed training data let alone reprocess historical or previously labeled images. An automated pipeline to convert existing image level labels into labeled bounding boxes would give organizations a tremendous boost toward training custom networks to assist with the analysis of newly collected data.
 
 ## Getting Started
-Set up a virtual environment
+The Il2BB pipeline was developed with Python 3.8.5 on Ubuntu 20.04.
+
+# Set up a virtual environment
 ```bash
+cd %IL2BB Workspace%
+
+[Linux]
 python3 -m venv il2bb_env
-cd il2bb_env
-source bin/activate
-pip install pip --upgrade
-pip install pillow
-pip install tensorflow-gpu==1.15
-or
-pip install tensorflow==1.15
+source il2bb_env/bin/activate
+
+[Windows]
+python -m venv il2bb_env
+il2bb_env\Scripts\activate
+
+
+python -m pip install pip --upgrade
+python -m pip install pillow
+python -m pip install tensorflow
 ```
 
 Clone the IL2BB repo
@@ -38,7 +46,7 @@ git clone https://github.com/persts/IL2BB IL2BB
 
 Set up BBoxEE
 ```bash
-pip install pyqt5
+python -m pip install pyqt5
 git clone https://github.com/persts/BBoxEE BBoxEE
 ```
 

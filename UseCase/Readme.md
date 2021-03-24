@@ -16,7 +16,7 @@ The needed files include:
 
 nactiPar0.zip is 488GB! Even through it appears like you can access the link through your browser, to successfully download the data you must use the [Azure (azcopy)](https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10) tool.
 
-*Note: The [UseCase] directory contains five metadata entries and images from the NACTI for demonstration purposes. You do not need to download the original data to test the pipeline! Just
+*Note: The [UseCase] directory contains five metadata entries and images from the NACTI for demonstration purposes. You do not need to download the original data to test the pipeline! Just activate your virtual environment and 
 ```code
 cd UseCase
 ```
@@ -50,8 +50,9 @@ part0/sub000/2010_Unit150_Ivan099_img0122.jpg,red deer
 
 
 Usage:
-```python
-python3 stage1_batch.py [label_map] [data_dir] [batch_dir]
+```bash
+[Linux]
+python stage1_batch.py [label_map] [data_dir] [batch_dir]
 ```
 
 The batching process will copy the images from their original location (i.e., column 1 of the label map file) into a series of sequentially number directories with 1000 images per directory. The original files are renamed during the copy process and a local label map file is created in each batch directory.
@@ -62,21 +63,33 @@ The new label map file has three fields:
  3. original image file name
 
 Run the batch process on the demo data.
-```python
-python3 ../stage1_batch.py cpw_labelmap.csv data batches
+```bash
+[Linux]
+python ../stage1_batch.py cpw_labelmap.csv data batches
+
+[Windows]
+python ..\stage1_batch.py cpw_labelmap.csv data batches
 ```
 
 If you want to be able to prioritize the bounding box review by species you can use the alternative batch process.
 Run the batch process on the demo data.
-```python
-python3 ../stage1_batch_by_species.py cpw_labelmap.csv data batches
+```bash
+[Linux]
+python ../stage1_batch_by_species.py cpw_labelmap.csv data batches
+
+[Windows]
+python ..\stage1_batch_by_species.py cpw_labelmap.csv data batches
 ```
 
 ## Step 4: Creating Bounding Boxes
 The last step is to use [Microsoft AI for Earth’s MegaDetector](https://github.com/microsoft/CameraTraps/) for creating an initial bounding box and then apply the appropriate label to the box based on the known image level label. 
 
-```python
-python3 ../stage2_gen_bbox.py batches/batch_001/
+```bash
+[Linux]
+python ../stage2_gen_bbox.py batches/batch_001/
+
+[Windows]
+python ..\stage2_gen_bbox.py batches\batch_001\
 ```
 This step will create a new annotation file (il2bb.bbx) in the batch directory which can be opened, reviewed, and modified with the [Bounding Box Editor and Exporter (BBoxEE)](https://github.com/persts/BBoxEE). A log file is also generated in the batch directory which contains entries for images where no bounding box was able to be created.
 
