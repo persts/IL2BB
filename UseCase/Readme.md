@@ -25,8 +25,8 @@ to get started.
 ## Step 2: Extracting CPW Metadata
 The North American Camera Trap Image (NACTI) archive contains 3,367,383 images in total. The metadata for this archive contains fourteen fields but the IL2BB pipeline only requires two fields (image file name and object label). 
 
-```python
-python3 extract_metadata.py
+```bash
+python extract_metadata.py
 ```
 
 ## Step 3: Creating Image Batches
