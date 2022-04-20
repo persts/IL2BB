@@ -73,7 +73,7 @@ for label in base.keys():
         current_file = os.path.join(DATA, src_file_name)
         new_file_name = "img_{:03}.{}".format(counter, src_file_name[-3:].lower())
         new_file = os.path.join(current_batch, new_file_name)
-        shutil.copyfile(current_file, new_file) 
+        shutil.copy2(current_file, new_file) 
         mapfile.write("{}{},{},{}".format(nl, new_file_name, label, src_file_name))
         counter += 1
         nl = "\n"
