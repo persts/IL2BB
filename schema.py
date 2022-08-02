@@ -30,7 +30,9 @@ def annotation_file():
             'mask_name': '',
             'images': {},
             'analysts': [],
-            'schema': '1.0.0'}
+            'review': [],
+            'skip_export': [],
+            'schema': '1.1.0'}
 
 
 def annotation_file_entry():
@@ -45,6 +47,7 @@ def annotation():
     """Factory for an annotation block."""
     return {'created_by': '',
             'updated_by': '',
+            'confidence': 1.0,
             'bbox': {'xmin': 0,
                      'xmax': 0,
                      'ymin': 0,
