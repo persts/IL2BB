@@ -18,12 +18,12 @@ Reviewing and documenting objects captured in images is time consuming enough. C
 ## Relevance
 Deep learning based object detectors have the potential to assist and automate the analysis of images collected during camera trap deployments. Considerable bounding box data are needed to train an object detector. Most organizations, however, don’t have the human capital to manually generate the needed training data let alone reprocess historical or previously labeled images. An automated pipeline to convert existing image level labels into labeled bounding boxes would give organizations a tremendous boost toward training custom networks to assist with the analysis of newly collected data.
 
-## Getting Started
-The Il2BB pipeline was developed with Python 3.8.5 on Ubuntu 20.04.
+# Getting Started
+The Il2BB pipeline was developed with Python 3.8.10 on Ubuntu 20.04.
 
-# Set up a virtual environment
+## Set up a virtual environment
 ```bash
-cd %IL2BB Workspace%
+cd [IL2BB Workspace]
 
 [Linux]
 python3 -m venv il2bb_env
@@ -33,10 +33,27 @@ source il2bb_env/bin/activate
 python -m venv il2bb_env
 il2bb_env\Scripts\activate
 
-
 python -m pip install pip --upgrade
-python -m pip install pillow
-python -m pip install tensorflow
+```
+
+Clone the YOLO5 repo and install dependencies
+```bash
+git clone https://github.com/ultralytics/yolov5 YOLO5
+python -m pip install -r YOLO5/requirements.txt
+```
+
+Downgrade the version of torch **See note below for newer verisons or M1 support
+```bash
+python -m pip install torch==1.10.1 torchvision==0.11.2
+```
+
+You need to add the YOLO5 to your PYTHONPATH
+```bash
+[Linux]
+export PYTHONPATH=$PYTHONPATH:__FULL PATH TO YOUR YOLO5 folder__
+
+[Windows]
+set PYTHONPATH=%PYTHONPATH%;__FULL PATH TO YOUR YOLO5 folder__
 ```
 
 Clone the IL2BB repo
@@ -44,14 +61,25 @@ Clone the IL2BB repo
 git clone https://github.com/persts/IL2BB IL2BB
 ```
 
-Set up BBoxEE
-```bash
-python -m pip install pyqt5
-git clone https://github.com/persts/BBoxEE BBoxEE
-```
-
 ## Quick Start
 The [Colorado Parks and Wildlife use case](./UseCase) doubles as basic user guide.
 
-## Additional Information
-The IL2BB pipeline is being developed for the Animal Detection Network (Andenet) which is part of the Center for Biodiversity and Conservation's broader [Machine Learning for Conservation](https://www.amnh.org/research/center-for-biodiversity-conservation/research-and-conservation/machine-learning-for-conservation) initiative.
+## M1 Support and Newer versions of PyTorch
+If you want M1 support you will need PyTorch >= v1.13. At the time of writing this, that version is only available as a nighly build.
+
+Newer versions of Torch will not work with MegaDetector, but the modification is relatively straight forward
+```bash
+edit the file
+[VENV_PATH]/lib/python3.8/site-packages/torch/nn/modules/upsampling.py
+
+Change the following function from:
+
+def forward(self, input: Tensor) -> Tensor:
+        return F.interpolate(input, self.size, self.scale_factor, self.mode, self.align_corners,
+                             recompute_scale_factor=self.recompute_scale_factor)
+
+to:
+
+def forward(self, input: Tensor) -> Tensor:
+        return F.interpolate(input, self.size, self.scale_factor, self.mode, self.align_corners)
+```

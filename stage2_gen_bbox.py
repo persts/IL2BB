@@ -26,17 +26,17 @@ import os
 import sys
 import csv
 import json
+import torch
+import schema
 import urllib.request
 import numpy as np
 from PIL import Image
-import schema
+from utils.augmentations import letterbox
+from utils.general import non_max_suppression, scale_coords, xyxy2xywh
 
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-import tensorflow.compat.v1 as tf
-
-MEGADETECTOR = './md_v4.1.0.pb'
-MEGADETECTOR_URL = 'https://lilablobssc.blob.core.windows.net/models/camera_traps/megadetector/md_v4.1.0/md_v4.1.0.pb'
-THRESHOLD = 0.8
+MEGADETECTOR = './md_v5a.0.0.pt'
+MEGADETECTOR_URL = 'https://github.com/microsoft/CameraTraps/releases/download/v5.0/md_v5a.0.0.pt'
+THRESHOLD = 0.5
 
 # Little error checking to get things started
 if len(sys.argv) == 1:
@@ -82,61 +82,67 @@ csvfile.close()
 detections = schema.annotation_file()
 detections['analysts'].append('Machine Generated')
 
-# Create the detection graph and read in megadetector
-detection_graph = tf.Graph()
-graph_def = tf.GraphDef()
-with tf.io.gfile.GFile(MEGADETECTOR, 'rb') as fid:
-    serialized_graph = fid.read()
-    graph_def.ParseFromString(serialized_graph)
+# Check if GPUs are available
+device = 'cpu'
+if torch.cuda.is_available():
+    device = 'cuda:0'
+    
+try:
+    if torch.backends.mps.is_built and torch.backends.mps.is_available():
+        device = 'mps'
+except AttributeError:
+    pass
 
-with detection_graph.as_default():
-    # Import graph
-    tf.import_graph_def(graph_def, name='')
+# Load model
+checkpoint = torch.load('./md_v5a.0.0.pt')
+model = checkpoint['model'].float().fuse().eval().to(device)
 
-    # Begin processing loop
-    with tf.Session(graph=detection_graph) as sess:
-        image_tensor = (detection_graph.get_tensor_by_name('image_tensor:0'))
-        d_boxes = (detection_graph.get_tensor_by_name('detection_boxes:0'))
-        d_scores = (detection_graph.get_tensor_by_name('detection_scores:0'))
-        d_classes = (detection_graph.get_tensor_by_name('detection_classes:0'))
-        num_detections = (detection_graph.get_tensor_by_name('num_detections:0'))
+# Pass each image through megadetector
+for image_name, label in image_list:
+    file_name = os.path.join(batch_path, image_name)
+    img_original = Image.open(file_name)
+    img_original = np.asarray(img_original)
 
-        # Pass each image through megadetector
-        for img, label in image_list:
-            file_name = os.path.join(batch_path, img)
-            image = Image.open(file_name)
-            image_np = np.array(image)
-            image_np_expanded = np.expand_dims(image_np, axis=0)
-            image.close()
-            fd = {image_tensor: image_np_expanded}
-            (boxes, scores, classes, num) = sess.run([d_boxes,
-                                                      d_scores,
-                                                      d_classes,
-                                                      num_detections],
-                                                      feed_dict=fd)
-            boxes = np.squeeze(boxes)
-            scores = np.squeeze(scores)
-            classes = np.squeeze(classes)
-            entry = schema.annotation_file_entry()
-            for i in range(len(scores)):
-                if scores[i] >= THRESHOLD:
-                    annotation = schema.annotation()
-                    annotation['created_by'] = 'machine'
-                    bbox = boxes[i]
-                    annotation['bbox']['xmin'] = float(bbox[1])
-                    annotation['bbox']['xmax'] = float(bbox[3])
-                    annotation['bbox']['ymin'] = float(bbox[0])
-                    annotation['bbox']['ymax'] = float(bbox[2])
-                    annotation['label'] = label
-                    entry['annotations'].append(annotation)
-            # If bounding boxes created apply label else log false negative
-            if len(entry['annotations']) > 0:
-                detections['images'][img] = entry
-                print("({}) [{}] detections".format(file_name, len(entry['annotations'])))
-            else:
-                print('False negative: [{}] - {}'.format(label, file_name))
-                logfile.write('{}False negative: [{}] - {}'.format(nl, label, img))
-                nl = "\n"
+    # padded resize
+    img = letterbox(img_original, new_shape=1280, stride=64, auto=True)[0]
+    img = img.transpose((2, 0, 1))
+    img = np.ascontiguousarray(img)
+    img = torch.from_numpy(img)
+    img = img.float()
+    img /= 255
+    img = torch.unsqueeze(img, 0).to(device)
+    pred: list = model(img)[0]
+    pred = non_max_suppression(prediction=pred.cpu(), conf_thres=0.2)
+    gn = torch.tensor(img_original.shape)[[1, 0, 1, 0]]
+
+    entry = schema.annotation_file_entry()
+    for det in pred:
+        if len(det):
+            det[:, :4] = scale_coords(img.shape[2:], det[:, :4], img_original.shape).round()
+            for *box, conf, cls in reversed(det):
+                annotation = schema.annotation()
+                annotation['created_by'] = 'machine'
+                bbox = (xyxy2xywh(torch.tensor(box).view(1, 4)) / gn).view(-1).tolist()
+                x_center, y_center, width_of_box, height_of_box = bbox
+                x_min = x_center - width_of_box / 2.0
+                y_min = y_center - height_of_box / 2.0
+                x_max = x_center + width_of_box / 2.0
+                y_max = y_center + height_of_box / 2.0
+                annotation['bbox']['xmin'] = x_min
+                annotation['bbox']['xmax'] = x_max
+                annotation['bbox']['ymin'] = y_min
+                annotation['bbox']['ymax'] = y_max
+                annotation['label'] = label
+                annotation['confidence'] = conf.item()
+                entry['annotations'].append(annotation)
+    # If bounding boxes created apply label else log false negative
+    if len(entry['annotations']) > 0:
+        detections['images'][image_name] = entry
+        print("({}) [{}] detections".format(file_name, len(entry['annotations'])))
+    else:
+        print('False negative: [{}] - {}'.format(label, file_name))
+        logfile.write('{}False negative: [{}] - {}'.format(nl, label, image_name))
+        nl = "\n"
 
 # Dump annotations and close open files
 json.dump(detections, bbxfile)
