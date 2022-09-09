@@ -42,11 +42,6 @@ git clone https://github.com/ultralytics/yolov5 YOLO5
 python -m pip install -r YOLO5/requirements.txt
 ```
 
-Downgrade the version of torch **See note below for newer verisons or M1 support
-```bash
-python -m pip install torch==1.10.1 torchvision==0.11.2
-```
-
 You need to add the YOLO5 to your PYTHONPATH
 ```bash
 [Linux]
@@ -66,20 +61,3 @@ The [Colorado Parks and Wildlife use case](./UseCase) doubles as basic user guid
 
 ## M1 Support and Newer versions of PyTorch
 If you want M1 support you will need PyTorch >= v1.13. At the time of writing this, that version is only available as a nighly build.
-
-Newer versions of Torch will not work with MegaDetector, but the modification is relatively straight forward
-```bash
-edit the file
-[VENV_PATH]/lib/python3.8/site-packages/torch/nn/modules/upsampling.py
-
-Change the following function from:
-
-def forward(self, input: Tensor) -> Tensor:
-        return F.interpolate(input, self.size, self.scale_factor, self.mode, self.align_corners,
-                             recompute_scale_factor=self.recompute_scale_factor)
-
-to:
-
-def forward(self, input: Tensor) -> Tensor:
-        return F.interpolate(input, self.size, self.scale_factor, self.mode, self.align_corners)
-```

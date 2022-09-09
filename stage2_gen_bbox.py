@@ -95,6 +95,10 @@ except AttributeError:
 
 # Load model
 checkpoint = torch.load('./md_v5a.0.0.pt')
+# Patch for older YOLOV5 model
+for m in checkpoint['model'].modules():
+    if type(m) is torch.nn.Upsample:
+        m.recompute_scale_factor = None
 model = checkpoint['model'].float().fuse().eval().to(device)
 
 # Pass each image through megadetector
