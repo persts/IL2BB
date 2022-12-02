@@ -32,7 +32,7 @@ import urllib.request
 import numpy as np
 from PIL import Image
 from utils.augmentations import letterbox
-from utils.general import non_max_suppression, scale_coords, xyxy2xywh
+from utils.general import non_max_suppression, scale_boxes, xyxy2xywh
 
 MEGADETECTOR = './md_v5a.0.0.pt'
 MEGADETECTOR_URL = 'https://github.com/microsoft/CameraTraps/releases/download/v5.0/md_v5a.0.0.pt'
@@ -86,7 +86,7 @@ detections['analysts'].append('Machine Generated')
 device = 'cpu'
 if torch.cuda.is_available():
     device = 'cuda:0'
-    
+
 try:
     if torch.backends.mps.is_built and torch.backends.mps.is_available():
         device = 'mps'
@@ -122,7 +122,7 @@ for image_name, label in image_list:
     entry = schema.annotation_file_entry()
     for det in pred:
         if len(det):
-            det[:, :4] = scale_coords(img.shape[2:], det[:, :4], img_original.shape).round()
+            det[:, :4] = scale_boxes(img.shape[2:], det[:, :4], img_original.shape).round()
             for *box, conf, cls in reversed(det):
                 annotation = schema.annotation()
                 annotation['created_by'] = 'machine'
