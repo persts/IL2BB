@@ -31,8 +31,8 @@ import schema
 import urllib.request
 import numpy as np
 from PIL import Image
-from utils.augmentations import letterbox
-from utils.general import non_max_suppression, scale_boxes, xyxy2xywh
+from yolov5.utils.augmentations import letterbox
+from yolov5.utils.general import non_max_suppression, scale_boxes, xyxy2xywh
 
 MEGADETECTOR = './md_v5a.0.0.pt'
 MEGADETECTOR_URL = 'https://github.com/microsoft/CameraTraps/releases/download/v5.0/md_v5a.0.0.pt'

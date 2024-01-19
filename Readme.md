@@ -19,45 +19,28 @@ Reviewing and documenting objects captured in images is time consuming enough. C
 Deep learning based object detectors have the potential to assist and automate the analysis of images collected during camera trap deployments. Considerable bounding box data are needed to train an object detector. Most organizations, however, don’t have the human capital to manually generate the needed training data let alone reprocess historical or previously labeled images. An automated pipeline to convert existing image level labels into labeled bounding boxes would give organizations a tremendous boost toward training custom networks to assist with the analysis of newly collected data.
 
 # Getting Started
-The Il2BB pipeline was developed with Python 3.8.10 on Ubuntu 20.04.
+The Il2BB pipeline was developed with Python 3.10.12 on Ubuntu 22.04.
 
 ## Set up a virtual environment
 ```bash
 cd [IL2BB Workspace]
 
 [Linux]
+git clone https://github.com/persts/IL2BB IL2BB
 python3 -m venv il2bb_env
 source il2bb_env/bin/activate
 
 [Windows]
+git clone https://github.com/persts/IL2BB IL2BB
 python -m venv il2bb_env
 il2bb_env\Scripts\activate
 
+
+cd IL2BB
 python -m pip install pip --upgrade
-```
-
-Clone the YOLO5 repo and install dependencies
-```bash
-git clone https://github.com/ultralytics/yolov5 YOLO5
-python -m pip install -r YOLO5/requirements.txt
-```
-
-You need to add the YOLO5 to your PYTHONPATH
-```bash
-[Linux]
-export PYTHONPATH=$PYTHONPATH:__FULL PATH TO YOUR YOLO5 folder__
-
-[Windows]
-set PYTHONPATH=%PYTHONPATH%;__FULL PATH TO YOUR YOLO5 folder__
-```
-
-Clone the IL2BB repo
-```bash
-git clone https://github.com/persts/IL2BB IL2BB
+python -m pip install -r requirements.txt
 ```
 
 ## Quick Start
 The [Colorado Parks and Wildlife use case](./UseCase) doubles as basic user guide.
 
-## M1 Support and Newer versions of PyTorch
-If you want M1 support you will need PyTorch >= v1.13. At the time of writing this, that version is only available as a nighly build.
